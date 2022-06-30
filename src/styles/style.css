@@ -1,0 +1,17 @@
+.bg-red {
+    background-color: red;
+}
+
+.border-solid{
+    border-style: solid;
+}
+.border-red{
+    border-color: red;
+}
+.border-1{
+    border-width: 1px;
+}
+
+.button {
+    background-color: blue;
+}

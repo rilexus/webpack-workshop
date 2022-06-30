@@ -1,3 +1,8 @@
+const HtmlPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const merge = require('webpack-merge').merge;
+const loadPresets = require('./presets/loadPresets');
+const {resolve} = require('path')
 class MyPlugin {
   apply(compiler) {
     // console.log(compiler.hooks);
@@ -5,16 +10,14 @@ class MyPlugin {
 }
 
 const requireConfig = (env /* development | production */) =>
-  require(`./webpack.config.${env}`);
+  require(`./webpack.config.${env.mode}`)(env);
 
 // Can be an object or a function
 const webpackConfig = (
-  env /* can pass custom values via --env flag */,
-  { mode /* development | production */ }
+    {mode = 'production'} /* can pass custom values via --env flag */,
 ) => {
-  console.log(env);
   // require configuration based on the mode
-  // return requireConfig(mode)
+  // return requireConfig(env)
   return {
     mode,
     // NODE:
@@ -31,16 +34,21 @@ const webpackConfig = (
       // NOTE:
       //  webpack defaults to "main.js"
       // output file name will be the filename from the entry object
-      // filename: "[name].js",
+      filename: "[name].js",
       // random generated hash as a file name
       // filename: "[hash].js",
       // name from entry AND a hash
-      filename: "[name].[hash].js",
+      // filename: "[name].[hash].js",
     },
-    // resolve: {
-    //   // omit the file suffix
-    //   extensions: [".ts", ".tsx", ".js"],
-    // },
+    resolve: {
+      // omit the file suffix
+      // extensions: [".ts", ".tsx", ".js"],
+      alias: {
+        "@components": resolve(__dirname, 'src/components/'),
+        "@styles": resolve(__dirname, 'src/styles/'),
+      },
+    },
+
     module: {
       rules: [
         {
@@ -67,6 +75,7 @@ const webpackConfig = (
           //     // loaders (transformers) will be applied from right to left
           //   ];
           // },
+
         },
 
         // transform wit babel
@@ -74,10 +83,35 @@ const webpackConfig = (
         //   test: /\.js$/,
         //   use: 'babel-loader'
         // }
+
+        // {
+        //   test: /\.css$/,
+        //   use: 'css-loader'
+        // }
+
+        // {
+        //   test: /\.css$/,
+        //   use: ['style-loader', 'css-loader']
+        // }
+
+        {
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader, "css-loader"],
+        },
+
       ],
     },
-    plugins: [new MyPlugin()],
+    plugins: [
+        new MyPlugin(),
+        // Does not need a config object. Defaults to index.html
+        new MiniCssExtractPlugin(),
+        new HtmlPlugin({
+          // template: __dirname + "/public/index.html"
+        })
+    ],
   };
 };
 
-module.exports = webpackConfig;
+module.exports = (...args) => {
+  return merge(webpackConfig(...args), loadPresets(...args))
+};
