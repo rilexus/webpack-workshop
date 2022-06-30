@@ -1,0 +1,22 @@
+{
+  "name": "webpack-worshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack",
+    "dev": "npm run webpack -- --mode development",
+    "prod": "npm run webpack -- --env customValue=production --mode production",
+    "dev:watch": "npm run dev -- --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.7.4",
+    "ts-loader": "^8.4.0",
+    "prettier": "^2.7.1",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2"
+  }
+}
