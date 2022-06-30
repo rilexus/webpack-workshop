@@ -1,8 +1,9 @@
-const HtmlPlugin = require('html-webpack-plugin');
+const HtmlPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const merge = require('webpack-merge').merge;
-const loadPresets = require('./presets/loadPresets');
-const {resolve} = require('path')
+const merge = require("webpack-merge").merge;
+const loadPresets = require("./presets/loadPresets");
+const { resolve } = require("path");
+const { DefinePlugin } = require("webpack");
 class MyPlugin {
   apply(compiler) {
     // console.log(compiler.hooks);
@@ -14,7 +15,7 @@ const requireConfig = (env /* development | production */) =>
 
 // Can be an object or a function
 const webpackConfig = (
-    {mode = 'production'} /* can pass custom values via --env flag */,
+  { mode = "production" } /* can pass custom values via --env flag */
 ) => {
   // require configuration based on the mode
   // return requireConfig(env)
@@ -44,8 +45,8 @@ const webpackConfig = (
       // omit the file suffix
       // extensions: [".ts", ".tsx", ".js"],
       alias: {
-        "@components": resolve(__dirname, 'src/components/'),
-        "@styles": resolve(__dirname, 'src/styles/'),
+        components: resolve(__dirname, "src/components/"),
+        styles: resolve(__dirname, "src/styles/"),
       },
     },
 
@@ -75,7 +76,6 @@ const webpackConfig = (
           //     // loaders (transformers) will be applied from right to left
           //   ];
           // },
-
         },
 
         // transform wit babel
@@ -98,20 +98,30 @@ const webpackConfig = (
           test: /\.css$/i,
           use: [MiniCssExtractPlugin.loader, "css-loader"],
         },
-
       ],
     },
     plugins: [
-        new MyPlugin(),
-        // Does not need a config object. Defaults to index.html
-        new MiniCssExtractPlugin(),
-        new HtmlPlugin({
-          // template: __dirname + "/public/index.html"
-        })
+      new MyPlugin(),
+      // Does not need a config object. Defaults to index.html
+      new MiniCssExtractPlugin(),
+      new HtmlPlugin({
+        // template: __dirname + "/public/index.html"
+      }),
+      new DefinePlugin({
+        // ------ feature flags ------
+        NICE_FEATURE: JSON.stringify(true),
+        EXPERIMENTAL_FEATURE: JSON.stringify(false),
+
+        version: JSON.stringify("1.0.0"),
+        "typeof window": JSON.stringify("object"),
+        "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+
+        API_ENDPOINT: JSON.stringify("https://dev.example.com"),
+      }),
     ],
   };
 };
 
 module.exports = (...args) => {
-  return merge(webpackConfig(...args), loadPresets(...args))
+  return merge(webpackConfig(...args), loadPresets(...args));
 };

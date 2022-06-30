@@ -6,9 +6,10 @@
   "scripts": {
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "npm run webpack-dev-server -- --mode development --hot",
-    "bundle:dev": "npm run webpack -- --mode development",
-    "bundle:prod": "npm run webpack -- --env mode=production --mode production",
+    "dev": "NODE_ENV=development npm run webpack-dev-server -- --mode development --hot",
+    "prod": "NODE_ENV=production npm run webpack -- --mode production",
+    "bundle:dev": "NODE_ENV=development npm run webpack -- --mode development",
+    "bundle:prod": "npm run prod -- --env mode=production",
     "bundle:analyse": "npm run bundle:prod -- --env preset:analyse",
     "bundle:compress": "npm run bundle:prod -- --env preset:compress",
     "bundle:uglify": "npm run bundle:prod -- --env preset:uglify",
