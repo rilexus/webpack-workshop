@@ -4,4 +4,4 @@ const createButton = ({ text, ...rest }) => {
   return createElement("button", rest, text);
 };
 
-export { createButton };
+export default createButton

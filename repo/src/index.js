@@ -1,4 +1,4 @@
-import "styles/style.css";
+import "./styles/style.css";
 // import css from '@styles/style.css';
 
 import value from "./value";
@@ -6,13 +6,13 @@ import { makeValue } from "./makeValue";
 
 // if you specify resolve.extensions = ['ts'], you can remove the ".ts" suffix
 import { tsValue } from "./ts-value.ts";
-import { createButton } from "components/createButton";
+import createButton from "./components/createButton";
 
 const loadTheme = (theme) => import(`./themes/${theme}`);
 
 const loadDialog = () =>
   import(
-    /* webpackChunkName:"dialog", webpackPrefetch: true */ "components/createDialog"
+    /* webpackChunkName:"dialog", webpackPrefetch: true */ "./components/createDialog"
   );
 
 console.log(`makeValue: ${makeValue(2)}`);

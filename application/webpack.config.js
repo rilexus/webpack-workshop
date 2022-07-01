@@ -4,6 +4,8 @@ const merge = require("webpack-merge").merge;
 const loadPresets = require("./presets/loadPresets");
 const { resolve } = require("path");
 const { DefinePlugin } = require("webpack");
+const { ModuleFederationPlugin } = require("webpack").container;
+
 class MyPlugin {
   apply(compiler) {
     // console.log(compiler.hooks);
@@ -117,6 +119,12 @@ const webpackConfig = (
         "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
 
         API_ENDPOINT: JSON.stringify("https://dev.example.com"),
+      }),
+      new ModuleFederationPlugin({
+        name: "application",
+        remotes: {
+          repo: "repo@http://localhost:3000/remoteEntry.js"
+        }
       }),
     ],
   };
