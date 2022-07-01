@@ -57,5 +57,5 @@ const addThemeButtons = () => {
 
 console.log(process.env.NODE_ENV);
 
-// addThemeButtons();
+addThemeButtons();
 document.body.appendChild(button);

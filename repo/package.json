@@ -6,13 +6,13 @@
   "scripts": {
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "NODE_ENV=development npm run webpack-dev-server -- --mode development --hot",
+    "dev": "NODE_ENV=development npm run webpack -- --mode development --hot",
+    "dev:watch": "npm run dev -- --watch",
     "prod": "NODE_ENV=production npm run webpack -- --mode production",
     "bundle:dev": "NODE_ENV=development npm run webpack -- --mode development",
     "bundle:prod": "npm run prod -- --env mode=production",
     "bundle:analyse": "npm run bundle:prod -- --env preset:analyse",
     "bundle:compress": "npm run bundle:prod -- --env preset:compress",
-    "bundle:uglify": "npm run bundle:prod -- --env preset:uglify",
     "serve": "serve ./dist"
   },
   "author": "",

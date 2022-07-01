@@ -116,7 +116,6 @@ const webpackConfig = (
 
         version: JSON.stringify("1.0.0"),
         "typeof window": JSON.stringify("object"),
-        "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
 
         API_ENDPOINT: JSON.stringify("https://dev.example.com"),
       }),
